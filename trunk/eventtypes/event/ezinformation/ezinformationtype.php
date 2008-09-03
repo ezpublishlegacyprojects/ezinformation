@@ -17,8 +17,6 @@
 // http://www.gnu.org/copyleft/gpl.html.
 //
 
-include_once( 'kernel/classes/ezworkflowtype.php' );
-
 class eZInformationType extends eZWorkflowEventType
 {
 
@@ -35,8 +33,7 @@ class eZInformationType extends eZWorkflowEventType
         $parameters = $process->attribute( 'parameter_list' );
         $object = eZContentObject::fetch( $parameters['object_id'] );
 
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'kernel/common/template.php' );
+        require_once( 'kernel/common/template.php' );
 
         $ini = eZINI::instance();
         $informationINI = eZINI::instance( 'ezinformation.ini' );
@@ -47,9 +44,6 @@ class eZInformationType extends eZWorkflowEventType
         {
             if ( $classID == $object->attribute( 'contentclass_id' ) )
             {
-                include_once( 'lib/ezutils/classes/ezmail.php' );
-                include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-
                 $mail = new eZMail();
                 $tpl = templateInit();
 
