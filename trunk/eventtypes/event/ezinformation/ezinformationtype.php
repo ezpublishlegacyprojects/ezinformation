@@ -56,16 +56,34 @@ class eZInformationType extends eZWorkflowEventType
                 	
                 $emailSender = $informationINI->variable( 'MailSettings', 'EmailSender' );
 
-                if ( !$emailSender )
+                if ( !$emailSender ) {
                     $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-                if ( !$emailSender )
+                }
+
+                if ( !$emailSender ) {
                     $emailSender = $ini->variable( "MailSettings", "AdminEmail" );
+                }
 
                 $receiver = $informationINI->variable( 'MailSettings', 'EmailReceiver' );
                 
-                if ( !$receiver )
+                if ( !$receiver ) {
                     $receiver = $ini->variable( 'MailSettings', 'AdminEmail' );
+                }
 
+                $ccs = $informationINI->variable( 'MailSettings', 'EmailCc' );
+
+                foreach($ccs as $cc) {
+                  list($email, $name) = explode(';', $cc);
+                  $mail->addCc($email, $name);
+                }
+
+                $bccs = $informationINI->variable( 'MailSettings', 'EmailBcc' );
+
+                foreach($bccs as $bcc) {
+                  list($email, $name) = explode(';', $bcc);
+                  $mail->addBcc($email, $name);
+                }
+                
                 $mail->setReceiver( $receiver );
                 $mail->setSender( $emailSender );
 
